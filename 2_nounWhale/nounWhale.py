@@ -31,9 +31,9 @@ class frenchNoun:
 
 ### SETUP OBJECTS FOR FRENCH WORDS -----------------------------------
 
-f_list = open('f_nouns+defArticle.txt', 'r')
+f_list = open('vocabData/f_nouns+defArticle.txt', 'r')
 f_nouns = f_list.readlines()
-m_list = open('m_nouns+defArticle.txt', 'r')
+m_list = open('vocabData/m_nouns+defArticle.txt', 'r')
 m_nouns = m_list.readlines()
 
 genders = []
