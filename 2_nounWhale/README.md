@@ -6,3 +6,4 @@ Dependencies:
 - Python3
 - PIL
 - arcade
+- (local conda env: gameMaker2)
