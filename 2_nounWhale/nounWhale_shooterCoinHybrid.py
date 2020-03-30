@@ -283,17 +283,12 @@ class SpaceShooter(arcade.Window):
         write_score = f"Score: {self.score}"
         arcade.draw_text(write_score, 10, 400, arcade.color.RED, 28)
         translation = f"{self.current_word.fr_word} = {self.current_word.en_word}"
-        arcade.draw_text(translation, 10, 450, arcade.color.BLACK, 22)
+        arcade.draw_text(translation, 20, 1150, arcade.color.BLACK, 22)
         # Add seaweed to background
         texture = arcade.load_texture("images/seaweed.png")
-        arcade.draw_texture_rectangle(300.0, 600.0, 200.0, 400.0, texture, 0, 155)
-        arcade.draw_texture_rectangle(500.0, 600.0, 200.0, 400.0, texture, 0, 155)
-        arcade.draw_texture_rectangle(600.0, 600.0, 200.0, 400.0, texture, 0, 155)
-        arcade.draw_texture_rectangle(900.0, 600.0, 200.0, 400.0, texture, 0, 155)
-        arcade.draw_texture_rectangle(1250.0, 600.0, 200.0, 400.0, texture, 0, 155)
-        arcade.draw_texture_rectangle(1300.0, 600.0, 200.0, 400.0, texture, 0, 155)
-        arcade.draw_texture_rectangle(1400.0, 600.0, 200.0, 400.0, texture, 0, 155)
-
+        seaweed_loc = [300.0, 500.0, 600.0, 900.0, 1250.0, 1300.0, 1400.0]
+        for x in seaweed_loc:
+            arcade.draw_texture_rectangle(x, 600.0, 200.0, 400.0, texture, 0, 155)
 
 
 
