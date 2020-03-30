@@ -145,6 +145,7 @@ class SpaceShooter(arcade.Window):
         #self.player_sprite = None
         self.all_sprites = arcade.SpriteList()
         self.noun_sprite_list = arcade.SpriteList()
+        self.noun_en_sprite_list = arcade.SpriteList()
 
 
     def setup(self):
@@ -158,25 +159,33 @@ class SpaceShooter(arcade.Window):
         self.player.left = 10
         self.all_sprites.append(self.player)
 
-        # Create the nouns
+        # Create the noun instance !!CURRENT BUG WITH FRENCH WORDS WITH ACCENTS!!
+        # Randomly select noun
+        randChoice = random.choice(list(nounObjects.keys()))
+        current_word = nounObjects[randChoice]
+        # Single static en noun
+        img2 = Image.new('RGB', (80, 20), color = (0, 191, 255))
+        d2 = ImageDraw.Draw(img2)
+        translation = current_word.en_word.encode('utf8')
+        d2.text((10,5), translation, fill=(255,255,0))
+        img2.save('images/noun_en.png')
+        noun_en = Coin("images/noun_en.png", SCALING) 
+        noun_en.center_x = 650 
+        noun_en.center_y = 1160
+        self.noun_en_sprite_list.append(noun_en)
+        # Create the mobile fr nouns
         for i in range(noun_count):
-            # Create the noun instance !!CURRENT BUG WITH FRENCH WORDS WITH ACCENTS!!
-            # Randomly select noun
-            randChoice = random.choice(list(nounObjects.keys()))
-            self.current_word = nounObjects[randChoice]
-
             img = Image.new('RGB', (80, 20), color = (248, 131, 121))
             d = ImageDraw.Draw(img)
-            word = self.current_word.fr_word.encode('utf8')
+            word = current_word.fr_word.encode('utf8')
             d.text((10,5), word, fill=(255,255,0))
             img.save('images/noun.png')
             noun = Coin("images/noun.png", SCALING)
-            # Position the coin
+            # Position the nouns
             noun.center_x = random.randrange(SCREEN_WIDTH+1500)
             noun.center_y = random.randrange(SCREEN_HEIGHT+500)
-            # Add the coin to the lists
+            # Add the fr noun to the list
             self.noun_sprite_list.append(noun)
-
 
 
         # Spawn a new plastic waste every 3 seconds
@@ -209,7 +218,7 @@ class SpaceShooter(arcade.Window):
             delta_time {float} -- How much time has passed since the last call
         """
         # First, create the new cloud sprite
-        bottle = FlyingSprite("images/plastic_bottle.png", SCALING*0.1)
+        bottle = FlyingSprite("images/plastic_bottle2.png", SCALING*0.1)
         # Set its position to a random height and off screen right
         bottle.left = random.randint(self.width, self.width + 10)
         bottle.top = random.randint(10, self.height - 10)
@@ -250,7 +259,7 @@ class SpaceShooter(arcade.Window):
             self.score += 1
 
 
-        # Move nouns
+        # Move fr nouns
         self.noun_sprite_list.update()
 
         # Update everything
@@ -273,17 +282,20 @@ class SpaceShooter(arcade.Window):
 
 
 
+
     def on_draw(self):
         """Draw all game objects
         """
         arcade.start_render()
         self.all_sprites.draw()
         self.noun_sprite_list.draw()
+        self.noun_en_sprite_list.draw()
         # Write score and translation of current_word to bottom left corner of screen
+        arcade.draw_text("Mange tous les nouns masculins!", 20, 1150, arcade.color.RED, 28)
+        #translation = f"{self.current_word.fr_word} = {self.current_word.en_word}"
+        #arcade.draw_text(translation, 20, 1100, arcade.color.BLACK, 28)
         write_score = f"Score: {self.score}"
         arcade.draw_text(write_score, 10, 400, arcade.color.RED, 28)
-        translation = f"{self.current_word.fr_word} = {self.current_word.en_word}"
-        arcade.draw_text(translation, 20, 1150, arcade.color.BLACK, 22)
         # Add seaweed to background
         texture = arcade.load_texture("images/seaweed.png")
         seaweed_loc = [300.0, 500.0, 600.0, 900.0, 1250.0, 1300.0, 1400.0]
