@@ -146,11 +146,12 @@ class SpaceShooter(arcade.Window):
         self.all_sprites = arcade.SpriteList()
         self.noun_sprite_list = arcade.SpriteList()
 
+
     def setup(self):
         """Get the game ready to play
         """
         # Set the background color
-        arcade.set_background_color(arcade.color.PINK)
+        arcade.set_background_color(arcade.color.CATALINA_BLUE)
         # Setup the player
         self.player = arcade.Sprite("images/whale.png", SCALING*0.25)
         self.player.center_y = self.height / 2
@@ -164,10 +165,10 @@ class SpaceShooter(arcade.Window):
             randChoice = random.choice(list(nounObjects.keys()))
             self.current_word = nounObjects[randChoice]
 
-            img = Image.new('RGB', (100, 25), color = (73, 109, 137))
+            img = Image.new('RGB', (80, 20), color = (248, 131, 121))
             d = ImageDraw.Draw(img)
             word = self.current_word.fr_word.encode('utf8')
-            d.text((10,10), word, fill=(255,255,0))
+            d.text((10,5), word, fill=(255,255,0))
             img.save('images/noun.png')
             noun = Coin("images/noun.png", SCALING)
             # Position the coin
@@ -184,16 +185,17 @@ class SpaceShooter(arcade.Window):
         # Load our background music
         # Sound source: http://ccmixter.org/files/Apoxode/59262
         # License: https://creativecommons.org/licenses/by/3.0/
-        self.background_music = arcade.load_sound(
-            "sounds/Apoxode_-_Electric_1.wav"
-        )
+        #self.background_music = arcade.load_sound(
+        #    "sounds/Apoxode_-_Electric_1.wav"
+        #)
+
         # Load our other sounds
         # Sound sources: Jon Fincher
         self.collision_sound = arcade.load_sound("sounds/Collision.wav")
         self.move_up_sound = arcade.load_sound("sounds/Rising_putter.wav")
         self.move_down_sound = arcade.load_sound("sounds/Falling_putter.wav")
         # Start the background music
-        arcade.play_sound(self.background_music)
+        #arcade.play_sound(self.background_music)
 
         # Unpause everything and reset the collision timer
         self.paused = False
@@ -207,7 +209,7 @@ class SpaceShooter(arcade.Window):
             delta_time {float} -- How much time has passed since the last call
         """
         # First, create the new cloud sprite
-        bottle = FlyingSprite("images/bottle_test.png", SCALING*0.1)
+        bottle = FlyingSprite("images/plastic_bottle.png", SCALING*0.1)
         # Set its position to a random height and off screen right
         bottle.left = random.randint(self.width, self.width + 10)
         bottle.top = random.randint(10, self.height - 10)
@@ -282,6 +284,15 @@ class SpaceShooter(arcade.Window):
         arcade.draw_text(write_score, 10, 400, arcade.color.RED, 28)
         translation = f"{self.current_word.fr_word} = {self.current_word.en_word}"
         arcade.draw_text(translation, 10, 450, arcade.color.BLACK, 22)
+        # Add seaweed to background
+        texture = arcade.load_texture("images/seaweed.png")
+        arcade.draw_texture_rectangle(300.0, 600.0, 200.0, 400.0, texture, 0, 155)
+        arcade.draw_texture_rectangle(500.0, 600.0, 200.0, 400.0, texture, 0, 155)
+        arcade.draw_texture_rectangle(600.0, 600.0, 200.0, 400.0, texture, 0, 155)
+        arcade.draw_texture_rectangle(900.0, 600.0, 200.0, 400.0, texture, 0, 155)
+        arcade.draw_texture_rectangle(1250.0, 600.0, 200.0, 400.0, texture, 0, 155)
+        arcade.draw_texture_rectangle(1300.0, 600.0, 200.0, 400.0, texture, 0, 155)
+        arcade.draw_texture_rectangle(1400.0, 600.0, 200.0, 400.0, texture, 0, 155)
 
 
 
