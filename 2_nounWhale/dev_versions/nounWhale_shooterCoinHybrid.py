@@ -86,7 +86,7 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "NOUN WHALE"
 SCALING = 2.0
-noun_count = 10
+noun_count = 20
 
 
 class FlyingSprite(arcade.Sprite):
@@ -113,8 +113,8 @@ class Coin(arcade.Sprite):
     """
     def reset_pos(self):
         # Reset the noun to a random spot above the screen
-        self.center_y = random.randrange(SCREEN_HEIGHT)
-        self.center_x = random.randrange(SCREEN_WIDTH + 500, SCREEN_WIDTH+1000)
+        self.center_y = random.randrange(SCREEN_HEIGHT+500)
+        self.center_x = random.randrange(SCREEN_WIDTH + 700, SCREEN_WIDTH+1500)
     def update(self):
         # Move the noun
         self.center_x -= 1
@@ -260,7 +260,6 @@ class SpaceShooter(arcade.Window):
 
         # Move fr nouns
         self.noun_sprite_list.update()
-
 
         # Update everything
         for sprite in self.all_sprites:
