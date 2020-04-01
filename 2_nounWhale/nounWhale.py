@@ -113,7 +113,7 @@ class Coin(arcade.Sprite):
     """
     def reset_pos(self):
         # Reset the noun to a random spot above the screen
-        self.center_y = random.randrange(SCREEN_HEIGHT+500)
+        self.center_y = random.randrange(SCREEN_HEIGHT)
         self.center_x = random.randrange(SCREEN_WIDTH + 700, SCREEN_WIDTH+1500)
     def update(self):
         # Move the noun
@@ -140,7 +140,6 @@ class SpaceShooter(arcade.Window):
         # Setup the empty sprite lists
         self.plastic_list = arcade.SpriteList()
         self.score = score
-        self.noun_list = None
         #self.player_sprite = None
         self.all_sprites = arcade.SpriteList()
         self.noun_sprite_list = arcade.SpriteList()
