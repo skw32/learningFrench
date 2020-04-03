@@ -14,5 +14,5 @@ Known issues:
 - Words don't update yet
 
 **Demo:**
-![verbDrop demo](Screenshot_verbDrop.png)
+![verbDrop demo](https://github.com/skw32/learningFrench/blob/master/3_verbDrop/Screenshot_verbDrop.png)
 
