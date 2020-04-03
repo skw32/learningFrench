@@ -1,6 +1,18 @@
 French/ English vocab from: http://ekladata.com/6FxXu86fl5mQwo7lEyDS5hG9NTc.pdf
 
-Plan: Create a game to catch the correct translation of a verb in a bucket with the English word as the label. Add option to get a hint.
+Use of Python arcade library adapted from Real Python tutorial: https://realpython.com/arcade-python-game-framework
+And arcade example: https://arcade.academy/examples/sprite_collect_coins_move_down.html#sprite-collect-coins-move-down
 
-Issues:
-- Problem with hint method in verbs objects
+Dependencies:
+- Python3
+- PIL
+- arcade
+- (local conda env: gameMaker2)
+
+Known issues:
+- Problem with formatting of French words (accents, special characters)
+- Words don't update yet
+
+**Demo:**
+![verbDrop demo](Screenshot_verbDrop.png)
+
