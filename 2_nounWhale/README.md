@@ -14,4 +14,4 @@ Known issues:
 - Words don't update yet
 
 **Demo:**
-![nounWhale demo](Screenshot_nounWhale.jpg)
+![nounWhale demo](https://github.com/skw32/learningFrench/blob/master/2_nounWhale/Screenshot_nounWhale.png)
