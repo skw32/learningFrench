@@ -13,9 +13,13 @@ And arcade example: https://arcade.academy/examples/sprite_collect_coins_move_do
 - pyfiglet
 - (local conda env: gameMaker2)
 
+**Game info:**
+Launch game with: `python3 verbDrop.py`.
+
+Objective is to catch the correct English translation of the French infinitive verb in the cloud. Use arrow keys to move your bucket, 'p' to pause and 'q' to quit early. Amusez vous bien!
+
 **Known issues:**
 - Problem with formatting of French words (accents, special characters)
-- Words don't update yet
 
 **Demo:**
 ![verbDrop demo](https://github.com/skw32/learningFrench/blob/master/3_verbDrop/Screenshot_verbDrop.png)

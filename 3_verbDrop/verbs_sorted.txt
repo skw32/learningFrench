@@ -446,7 +446,7 @@ allouer to allocate
 inonder to flood
 ancrer to anchor
 confiner to confine
-rigoler to laugh,
+rigoler to laugh
 expérimenter to experiment
 détériorer to deteriorate
 accepter to accept
@@ -784,7 +784,7 @@ réussir to succeed
 révéler to reveal
 revendiquer to claim
 rêver to dream
-rigoler to laugh,
+rigoler to laugh
 risquer to risk
 rompre to break
 rouler to roll
