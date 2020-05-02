@@ -10,6 +10,7 @@ And arcade example: https://arcade.academy/examples/sprite_collect_coins_move_do
 - Python3
 - PIL
 - arcade
+- pyfiglet
 - (local conda env: gameMaker2)
 
 **Known issues:**

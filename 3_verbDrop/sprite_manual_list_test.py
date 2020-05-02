@@ -17,6 +17,7 @@ import numpy as np
 from PIL import Image, ImageDraw
 import arcade
 import re
+import pyfiglet
 
 
 ### --------------- SETUP OBJECTS FOR FRENCH WORDS -----------------------------------
@@ -51,9 +52,13 @@ SCREEN_TITLE = "VERB DROP"
 SCALING = 2.0
 #verb_count = 1
 rounds = 50
+word_count = 5
 fr_list_of_sprite_lists =[] 
 en_list_of_sprite_lists = []
 wrong_en_list_of_sprite_lists = []
+win_banner = pyfiglet.figlet_format('vous gagnez !')
+lose_banner = pyfiglet.figlet_format("c'est dommage !")
+fini_banner = pyfiglet.figlet_format("c'est fini !")
 
 
 def setupVerbs(self, verbObjects, fr_list_of_sprite_lists, en_list_of_sprite_lists, wrong_en_list_of_sprite_lists): 
@@ -236,16 +241,27 @@ class SpaceShooter(arcade.Window):
             self.score += 1
             en_list_of_sprite_lists.pop(0)
             fr_list_of_sprite_lists.pop(0)
+            if len(en_list_of_sprite_lists) == 0:
+                print(win_banner)
+                print('')
+                print('You scored '+str(self.score)+' out of a possible '+str(rounds)+'.\n')
+                arcade.close_window()
         # Check for collision with wrong en verb
         lose_point = self.player.collides_with_sprite(wrong_en_list_of_sprite_lists[0])
         if lose_point:
             self.score -= 1
             wrong_en_list_of_sprite_lists.pop(0)
+            if len(wrong_en_list_of_sprite_lists) == 0:
+                print(lose_banner)
+                print('')
+                print('You scored '+str(self.score)+' out of a possible '+str(rounds)+'.\n')
+                arcade.close_window()
 
 
         # Move en verbs
-        en_list_of_sprite_lists[0].update()
-        wrong_en_list_of_sprite_lists[0].update()
+        if len(en_list_of_sprite_lists) > 0 and len(wrong_en_list_of_sprite_lists) >0:
+            en_list_of_sprite_lists[0].update()
+            wrong_en_list_of_sprite_lists[0].update()
 
         # Update everything
         for sprite in self.player_sprite:
@@ -324,8 +340,8 @@ class SpaceShooter(arcade.Window):
         arcade.draw_text("Attrape le verb:", 55, 1110, arcade.color.BLACK, 20)
         write_score = f"Score: {self.score}"
         arcade.draw_text(write_score, 1225, 1070, arcade.color.RED, 28)
-        if self.current_round > 0:
-            arcade.draw_text("new round!", 55, 1080, arcade.color.RED, 20)
+        #if self.current_round > 0:
+        #    arcade.draw_text("new round!", 55, 1080, arcade.color.RED, 20)
 
         #self.new_game = False
             
@@ -347,6 +363,10 @@ class SpaceShooter(arcade.Window):
             modifiers {int} -- Which modifiers were pressed
         """
         if symbol == arcade.key.Q:
+            print(fini_banner)
+            print('')
+            print('You scored '+str(self.score)+' out of a possible '+str(rounds)+'.\n')
+            arcade.close_window()
             # Quit immediately
             arcade.close_window()
 

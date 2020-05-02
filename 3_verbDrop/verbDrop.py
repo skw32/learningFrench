@@ -3,7 +3,7 @@ TODO/ issues:
 - Update verbs
 - Issue with formatting of French words (improved but not solved by utf8)
 
-Adapted from Arcade examples:
+Adapted from Arcade usage examples:
 - https://realpython.com/arcade-python-game-framework/
 - https://arcade.academy/examples/sprite_collect_coins_move_down.html#sprite-collect-coins-move-down
 
@@ -25,7 +25,6 @@ class frenchVerb:
     def __init__(self, fr_verb, en_verb):
         self.fr_verb = fr_verb
         self.en_verb = en_verb
-
 
 verb_list = open('verbs_sorted.txt', 'r')
 all_verbs = verb_list.readlines()
@@ -50,11 +49,68 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "VERB DROP"
 SCALING = 2.0
-verb_count = 10
+verb_count = 1
+rounds = 2
+fr_list_of_sprite_lists =[] 
+en_list_of_sprite_lists = []
+wrong_en_list_of_sprite_lists = []
 
-# Randomly select verb
-randChoice = random.choice(list(verbObjects.keys()))
-current_word = verbObjects[randChoice]
+
+def setupVerbs(self, verbObjects, fr_list_of_sprite_lists, en_list_of_sprite_lists, wrong_en_list_of_sprite_lists): 
+    # Set up lists to contain lists of different sprites (length = rounds)   
+    for j in range(rounds):
+        # Randomly select verb
+        randChoice = random.choice(list(verbObjects.keys()))
+        current_word = verbObjects[randChoice]
+        print(current_word.fr_verb) #debug
+        # Single static fr verb (drawn in cloud later)
+        translation = current_word.fr_verb.encode('utf-8')
+        img2 = Image.new('RGB', (80, 20), color = (255, 255, 255))
+        d2 = ImageDraw.Draw(img2)
+        d2.text((10,5), translation, fill=(0,0,0))
+        img2.save('images/verb_fr.png')
+        verb_fr = Coin("images/verb_fr.png", SCALING) 
+        verb_fr.center_x = 140 
+        verb_fr.center_y = 1080
+        self.verb_fr_sprite_list.append(verb_fr)
+        # Create the mobile en verbs (correct match)
+        for i in range(verb_count):
+            img = Image.new('RGB', (90, 20), color = (49, 140, 231))
+            d = ImageDraw.Draw(img)
+            word = current_word.en_verb.encode('utf-8')
+            d.text((10,5), word, fill=(0,0,0))
+            img.save('images/verb.png')
+            verb = Coin("images/verb.png", SCALING)
+            # Position the verbs
+            verb.center_x = random.randrange(SCREEN_WIDTH+1500)
+            verb.center_y = random.randrange(SCREEN_HEIGHT+500)
+            # Add the fr verb to the list
+            self.verb_en_sprite_list.append(verb)
+        # Create the mobile en verbs (wrong verbs)
+        for i in range(verb_count):
+            # Generate new random verb and check that it is not the same as the right verb
+            randChoice = random.choice(list(verbObjects.keys()))
+            wrong_word = verbObjects[randChoice]
+            while wrong_word == current_word:
+                randChoice = random.choice(list(verbObjects.keys()))
+                wrong_word = verbObjects[randChoice]
+            img = Image.new('RGB', (90, 20), color = (49, 140, 231))
+            d = ImageDraw.Draw(img)
+            word = wrong_word.en_verb.encode('utf-8')
+            d.text((10,5), word, fill=(0,0,0))
+            img.save('images/wrong_verb.png')
+            verb = Coin("images/wrong_verb.png", SCALING)
+            # Position the verbs
+            verb.center_x = random.randrange(SCREEN_WIDTH+1500)
+            verb.center_y = random.randrange(SCREEN_HEIGHT+500)
+            # Add the fr verb to the list
+            self.wrong_verb_en_sprite_list.append(verb)
+    fr_list_of_sprite_lists.append(self.verb_fr_sprite_list)
+    en_list_of_sprite_lists.append(self.verb_en_sprite_list)
+    wrong_en_list_of_sprite_lists.append(self.wrong_verb_en_sprite_list)
+    print(wrong_en_list_of_sprite_lists) #debug
+    print(self.verb_en_sprite_list.sprite_lists) #debug)
+
 
 
 class FlyingSprite(arcade.Sprite):
@@ -106,12 +162,15 @@ class SpaceShooter(arcade.Window):
         """
         super().__init__(width, height, title)
         # Setup the empty sprite lists
-        self.score = score
-        #self.player_sprite = None
-        self.all_sprites = arcade.SpriteList()
-        self.verb_sprite_list = arcade.SpriteList()
+        self.player_sprite = arcade.SpriteList()
         self.verb_fr_sprite_list = arcade.SpriteList()
-        self.wrong_verb_sprite_list = arcade.SpriteList()
+        self.verb_en_sprite_list = arcade.SpriteList()
+        self.wrong_verb_en_sprite_list = arcade.SpriteList()
+
+        # Initialise score as zero
+        self.score = 0
+        #self.new_game = False
+        self.current_round = 0
 
 
 
@@ -124,53 +183,10 @@ class SpaceShooter(arcade.Window):
         self.player = arcade.Sprite("images/bucket.png", SCALING*0.25)
         self.player.center_y = SCREEN_HEIGHT-200
         self.player.left = SCREEN_WIDTH / 2
-        self.all_sprites.append(self.player)
+        self.player_sprite.append(self.player)
 
-        # Create the noun instance !!CURRENT BUG WITH FRENCH WORDS WITH ACCENTS!!
-        # Single static fr verb
-        img2 = Image.new('RGB', (80, 20), color = (255, 255, 255))
-        d2 = ImageDraw.Draw(img2)
-        translation = current_word.fr_verb.encode('utf-8')
-        d2.text((10,5), translation, fill=(0,0,0))
-        img2.save('images/verb_fr.png')
-        verb_fr = Coin("images/verb_fr.png", SCALING) 
-        verb_fr.center_x = 140 
-        verb_fr.center_y = 1080
-        self.verb_fr_sprite_list.append(verb_fr)
-        
-        # Create the mobile en verbs (correct match)
-        for i in range(verb_count):
-            img = Image.new('RGB', (90, 20), color = (49, 140, 231))
-            d = ImageDraw.Draw(img)
-            word = current_word.en_verb.encode('utf-8')
-            d.text((10,5), word, fill=(0,0,0))
-            img.save('images/verb.png')
-            verb = Coin("images/verb.png", SCALING)
-            # Position the verbs
-            verb.center_x = random.randrange(SCREEN_WIDTH+1500)
-            verb.center_y = random.randrange(SCREEN_HEIGHT+500)
-            # Add the fr verb to the list
-            self.verb_sprite_list.append(verb)
-
-        # Create the mobile en verbs (wrong verbs)
-        for i in range(verb_count):
-            # Generate new random verb and check that it is not the same as the right verb
-            randChoice = random.choice(list(verbObjects.keys()))
-            wrong_word = verbObjects[randChoice]
-            while wrong_word == current_word:
-                randChoice = random.choice(list(verbObjects.keys()))
-                wrong_word = verbObjects[randChoice]
-            img = Image.new('RGB', (90, 20), color = (49, 140, 231))
-            d = ImageDraw.Draw(img)
-            word = wrong_word.en_verb.encode('utf-8')
-            d.text((10,5), word, fill=(0,0,0))
-            img.save('images/wrong_verb.png')
-            verb = Coin("images/wrong_verb.png", SCALING)
-            # Position the verbs
-            verb.center_x = random.randrange(SCREEN_WIDTH+1500)
-            verb.center_y = random.randrange(SCREEN_HEIGHT+500)
-            # Add the fr verb to the list
-            self.wrong_verb_sprite_list.append(verb)
+        # Create the verb instances !!CURRENT BUG WITH FRENCH WORDS WITH ACCENTS!!
+        setupVerbs(self, verbObjects, fr_list_of_sprite_lists, en_list_of_sprite_lists, wrong_en_list_of_sprite_lists)
 
         # Load our other sounds
         # Sound sources: Jon Fincher
@@ -200,34 +216,33 @@ class SpaceShooter(arcade.Window):
         if self.paused:
             return
 
-
-
         # Generate a list of all right verbs that collided with the player, gain a point
-        win_list = arcade.check_for_collision_with_list(self.player, self.verb_sprite_list)
+        win_list = arcade.check_for_collision_with_list(self.player, en_list_of_sprite_lists[self.current_round])
         # Loop through each colliding sprite, remove it, and add to the score.
         for verb in win_list:
             verb.remove_from_sprite_lists()
             self.score += 1
         # Generate a list of all wrong verbs that collided with the player, lose a point
-        lose_list = arcade.check_for_collision_with_list(self.player, self.wrong_verb_sprite_list)
+        lose_list = arcade.check_for_collision_with_list(self.player, wrong_en_list_of_sprite_lists[self.current_round])
         # Loop through each colliding sprite, remove it, and add to the score.
         for verb in lose_list:
             verb.remove_from_sprite_lists()
             self.score -= 1
 
-        # Move fr verbs
-        self.verb_sprite_list.update()
-        self.wrong_verb_sprite_list.update()
-
+        # Move en verbs
+        en_list_of_sprite_lists[self.current_round].update()
+        wrong_en_list_of_sprite_lists[self.current_round].update()
 
         # Update everything
-        for sprite in self.all_sprites:
+        for sprite in self.player_sprite:
             sprite.center_x = int(
                 sprite.center_x + sprite.change_x * delta_time
             )
             #sprite.center_y = int(
             #    sprite.center_y + sprite.change_y * delta_time
             #)
+
+
         # Keep the player on screen
         if self.player.top > self.height:
             self.player.top = self.height
@@ -238,6 +253,37 @@ class SpaceShooter(arcade.Window):
         if self.player.left < 0:
             self.player.left = 0
 
+        
+        # Test method to initialise new verbs (currently trying to restart game with new word and later to keep old score)
+        
+        #if self.score == 0:
+        if len(en_list_of_sprite_lists[self.current_round]) == 0: 
+            #self.new_game = True
+            #self.score = 100
+            self.current_round += 1
+            # Setup the empty sprite lists
+            #self.player_sprite = arcade.SpriteList()
+            #self.verb_en_sprite_list = arcade.SpriteList()
+            #self.verb_fr_sprite_list = arcade.SpriteList()
+            #self.wrong_verb_en_sprite_list = arcade.SpriteList()
+            #self.setup()
+            #self.on_draw()
+
+        
+        '''    
+            for correct_verb in self.verb_sprite_list:
+                correct_verb.remove_from_sprite_lists()
+            for wrong_verb in self.wrong_verb_sprite_list:
+                wrong_verb.remove_from_sprite_lists()
+            for fr_verb in self.verb_fr_sprite_list:
+                fr_verb.remove_from_sprite_lists()
+            setupVerbs(self, verbObjects)
+        '''
+        '''
+        if len(self.verb_sprite_list) == 0:
+            arcade.start_render()
+            arcade.draw_text("TEST", 55, 500, arcade.color.BLACK, 20)
+        '''
 
 
 
@@ -245,9 +291,10 @@ class SpaceShooter(arcade.Window):
         """Draw all game objects
         """
         arcade.start_render()
-        self.all_sprites.draw()
-        self.wrong_verb_sprite_list.draw()
-        self.verb_sprite_list.draw()
+
+        self.player_sprite.draw()
+        wrong_en_list_of_sprite_lists[self.current_round].draw()
+        en_list_of_sprite_lists[self.current_round].draw()
                 
         # Add clouds and rainbow to background
         cloud = arcade.load_texture("images/cloud.png")
@@ -256,11 +303,16 @@ class SpaceShooter(arcade.Window):
         arcade.draw_texture_rectangle(700.0, 1060.0, 900.0, 300.0, rainbow, 0, 255)
         arcade.draw_texture_rectangle(1300.0, 1080.0, 300.0, 250.0, cloud, 0, 255)
         # Put after to ensure on top of clouds
-        self.verb_fr_sprite_list.draw() 
+        fr_list_of_sprite_lists[self.current_round].draw() 
         arcade.draw_text("Attrape le verb:", 55, 1110, arcade.color.BLACK, 20)
         write_score = f"Score: {self.score}"
         arcade.draw_text(write_score, 1225, 1070, arcade.color.RED, 28)
-        
+        if self.current_round > 0:
+            arcade.draw_text("new round!", 55, 1080, arcade.color.RED, 20)
+
+        #self.new_game = False
+            
+
 
 
 
