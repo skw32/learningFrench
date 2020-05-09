@@ -13,9 +13,6 @@ Adapted from Arcade examples:
 Stock images:
 - https://www.pngfuel.com/free-png/vindr
 
-French vocab source:
-- http://ekladata.com/6FxXu86fl5mQwo7lEyDS5hG9NTc.pdf
-
 '''
 
 import random
@@ -167,8 +164,8 @@ class SpaceShooter(arcade.Window):
         translation = current_word.en_word.encode('utf8')
         d2.text((10,5), translation, fill=(255,255,0))
         img2.save('images/noun_en.png')
-        noun_en = Coin("images/noun_en.png", SCALING) 
-        noun_en.center_x = 650 
+        noun_en = Coin("images/noun_en.png", SCALING)
+        noun_en.center_x = 650
         noun_en.center_y = 1160
         self.noun_en_sprite_list.append(noun_en)
         # Create the mobile fr nouns
@@ -233,7 +230,6 @@ class SpaceShooter(arcade.Window):
         If we're paused, do nothing
         Once everything has moved, check for collisions between
         the player and the list of enemies
-
         Arguments:
             delta_time {float} -- Time since the last update
         """
@@ -310,7 +306,6 @@ class SpaceShooter(arcade.Window):
         P: Pause the game
         I/J/K/L: Move Up, Left, Down, Right
         Arrows: Move Up, Left, Down, Right
-
         Arguments:
             symbol {int} -- Which key was pressed
             modifiers {int} -- Which modifiers were pressed
@@ -337,7 +332,6 @@ class SpaceShooter(arcade.Window):
             self.player.change_x = 250
     def on_key_release(self, symbol: int, modifiers: int):
         """Undo movement vectors when movement keys are released
-
         Arguments:
             symbol {int} -- Which key was pressed
             modifiers {int} -- Which modifiers were pressed

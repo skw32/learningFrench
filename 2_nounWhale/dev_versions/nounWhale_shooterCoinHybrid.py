@@ -13,9 +13,6 @@ Adapted from Arcade examples:
 Stock images:
 - https://www.pngfuel.com/free-png/vindr
 
-French vocab source:
-- http://ekladata.com/6FxXu86fl5mQwo7lEyDS5hG9NTc.pdf
-
 '''
 
 import random

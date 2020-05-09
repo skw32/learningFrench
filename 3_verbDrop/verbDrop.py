@@ -6,9 +6,6 @@ Adapted from Arcade usage examples:
 - https://realpython.com/arcade-python-game-framework/
 - https://arcade.academy/examples/sprite_collect_coins_move_down.html#sprite-collect-coins-move-down
 
-French vocab source:
-- http://ekladata.com/6FxXu86fl5mQwo7lEyDS5hG9NTc.pdf
-
 '''
 
 import random
@@ -26,12 +23,12 @@ class frenchVerb:
         self.fr_verb = fr_verb
         self.en_verb = en_verb
 
-verb_list = open('verbs_sorted.txt', 'r')
+verb_list = open('vocabData/verbs_sorted.txt', 'r')
 all_verbs = verb_list.readlines()
 
 fr_verbs = []
 en_verbs = []
-for line in all_verbs: 
+for line in all_verbs:
     fr_verbs.append(line.split()[0])
     en_verbs.append(line.split()[1]+' '+line.split()[2])
 
@@ -51,7 +48,7 @@ SCREEN_TITLE = "VERB DROP"
 SCALING = 2.0
 rounds = 20 # Number of different words
 word_count = 7 # Number of same falling verbs
-fr_list_of_sprite_lists =[] 
+fr_list_of_sprite_lists =[]
 en_list_of_sprite_lists = []
 wrong_en_list_of_sprite_lists = []
 win_banner = pyfiglet.figlet_format('vous gagnez !')
@@ -59,8 +56,8 @@ lose_banner = pyfiglet.figlet_format("c'est dommage !")
 fini_banner = pyfiglet.figlet_format("c'est fini !")
 
 
-def setupVerbs(self, verbObjects, fr_list_of_sprite_lists, en_list_of_sprite_lists, wrong_en_list_of_sprite_lists): 
-    # Set up lists to contain lists of different sprites (initial length = rounds)   
+def setupVerbs(self, verbObjects, fr_list_of_sprite_lists, en_list_of_sprite_lists, wrong_en_list_of_sprite_lists):
+    # Set up lists to contain lists of different sprites (initial length = rounds)
     for j in range(rounds):
         # Randomly select verb
         randChoice = random.choice(list(verbObjects.keys()))
@@ -71,8 +68,8 @@ def setupVerbs(self, verbObjects, fr_list_of_sprite_lists, en_list_of_sprite_lis
         d2 = ImageDraw.Draw(img2)
         d2.text((10,5), translation, fill=(0,0,0))
         img2.save('images/verb_fr_'+str(j)+'.png')
-        verb_fr = Coin('images/verb_fr_'+str(j)+'.png', SCALING) 
-        verb_fr.center_x = 140 
+        verb_fr = Coin('images/verb_fr_'+str(j)+'.png', SCALING)
+        verb_fr.center_x = 140
         verb_fr.center_y = 1080
         fr_list_of_sprite_lists.append(verb_fr)
         # Create the mobile en verbs (correct match)
@@ -296,7 +293,7 @@ class SpaceShooter(arcade.Window):
         self.player_sprite.draw()
         en_list_of_sprite_lists[0].draw()
         wrong_en_list_of_sprite_lists[0].draw()
-                
+
         # Add clouds and rainbow to background
         cloud = arcade.load_texture("images/cloud.png")
         rainbow = arcade.load_texture("images/rainbow.png")
@@ -304,7 +301,7 @@ class SpaceShooter(arcade.Window):
         arcade.draw_texture_rectangle(700.0, 1060.0, 900.0, 300.0, rainbow, 0, 255)
         arcade.draw_texture_rectangle(1300.0, 1080.0, 300.0, 250.0, cloud, 0, 255)
         # Put after to ensure on top of clouds
-        fr_list_of_sprite_lists[0].draw() 
+        fr_list_of_sprite_lists[0].draw()
         arcade.draw_text("Attrape le verb:", 55, 1110, arcade.color.BLACK, 20)
         write_score = f"Score: {self.score}"
         arcade.draw_text(write_score, 1225, 1070, arcade.color.RED, 28)
