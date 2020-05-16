@@ -6,9 +6,7 @@
 
 '''
 TODO/ issues:
-- Create separate lists for male and female nouns, then as separate sprite lists
-- Add condition to gain point for masculin noun and lose for feminin nouns
-- Update noun creation loop so that word changes
+- ISSUE (with noun update dev version): cycles through nouns too fast then runs out of nouns when still calling for them
 - Look for better French text formatting
 - Add different collision sound for gain or lose points
 
@@ -82,9 +80,9 @@ SCALING = 2.0
 noun_count = 10
 rounds = 20
 
-male_en_list =[] 
+male_en_list =[]
 male_fr_list = []
-female_en_list =[] 
+female_en_list =[]
 female_fr_list = []
 win_banner = pyfiglet.figlet_format('vous gagnez !')
 lose_banner = pyfiglet.figlet_format("c'est dommage !")
@@ -92,10 +90,10 @@ fini_banner = pyfiglet.figlet_format("c'est fini !")
 
 
 
-def setupNouns(self, maleNouns, femaleNouns, male_en_list, male_fr_list, female_en_list, female_fr_list): 
-    # Set up lists to contain lists of different sprites (initial length = rounds) 
+def setupNouns(self, maleNouns, femaleNouns, male_en_list, male_fr_list, female_en_list, female_fr_list):
+    # Set up lists to contain lists of different sprites (initial length = rounds)
 
-    # Male nouns 
+    # Male nouns
     for j in range(rounds):
         # Randomly select verb
         randChoice = random.choice(list(maleNouns.keys()))
@@ -106,8 +104,8 @@ def setupNouns(self, maleNouns, femaleNouns, male_en_list, male_fr_list, female_
         d2 = ImageDraw.Draw(img2)
         d2.text((10,5), translation, fill=(255,255,0))
         img2.save('images/male_noun_en_'+str(j)+'.png')
-        male_en = Coin('images/male_noun_en_'+str(j)+'.png', SCALING) 
-        male_en.center_x = 658 
+        male_en = Coin('images/male_noun_en_'+str(j)+'.png', SCALING)
+        male_en.center_x = 658
         male_en.center_y = 1160
         male_en_list.append(male_en)
         # Create the mobile fr nouns
@@ -126,7 +124,7 @@ def setupNouns(self, maleNouns, femaleNouns, male_en_list, male_fr_list, female_
             male_fr_spriteList.append(noun)
         male_fr_list.append(male_fr_spriteList)
 
-    # Female nouns 
+    # Female nouns
     for j in range(rounds):
         # Randomly select verb
         randChoice = random.choice(list(femaleNouns.keys()))
@@ -137,8 +135,8 @@ def setupNouns(self, maleNouns, femaleNouns, male_en_list, male_fr_list, female_
         d2 = ImageDraw.Draw(img2)
         d2.text((10,5), translation, fill=(255,255,0))
         img2.save('images/female_noun_en_'+str(j)+'.png')
-        female_en = Coin('images/female_noun_en_'+str(j)+'.png', SCALING) 
-        female_en.center_x = 658 
+        female_en = Coin('images/female_noun_en_'+str(j)+'.png', SCALING)
+        female_en.center_x = 658
         female_en.center_y = 1160
         female_en_list.append(female_en)
         # Create the mobile fr nouns
@@ -263,7 +261,7 @@ class SpaceShooter(arcade.Window):
         self.collided = False
         self.collision_timer = 0.0
 
-    
+
     def change_nouns(self, delta_time: float):
         # Remove top noun from all lists
         male_en_list.pop(0)
@@ -373,7 +371,7 @@ class SpaceShooter(arcade.Window):
         if self.player.left < 0:
             self.player.left = 0
 
-        
+
 
     def on_draw(self):
         """Draw all game objects
